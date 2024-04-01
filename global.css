@@ -1,0 +1,143 @@
+/* reset - start */
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/*
+    2. Remove default margin
+  */
+* {
+  margin: 0;
+}
+/*
+    Typographic tweaks!
+    3. Add accessible line-height
+    4. Improve text rendering
+  */
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+    5. Improve media defaults
+  */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+    6. Remove built-in form typography styles
+  */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+/*
+    7. Avoid text overflows
+  */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+/*
+    8. Create a root stacking context
+  */
+#root,
+#__next {
+  isolation: isolate;
+}
+/* reset - end */
+
+.container {
+  margin: 1rem;
+  /* padding: 1em; */
+  border: 1px solid #000000;
+  border-radius: 0.5rem;
+  height: calc(100vh - 2rem);
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 25px;
+  padding: 0.75rem;
+}
+
+section {
+  display: flex;
+  height: calc(100% - 61.5px);
+}
+
+section .separator {
+  width: 1px;
+  background-color: #000000;
+}
+
+.preview {
+  width: 50%;
+  padding: 1rem;
+  height: 100%;
+}
+.preview > div {
+  background-color: #ece9e9;
+  height: 100%;
+  border-radius: 3px;
+  padding: 1rem;
+}
+
+.control-container {
+  width: 50%;
+  height: 100%;
+  padding: 10px 0;
+}
+.control-panel {
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.control-panel .control {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.control > label {
+  width: 30%;
+  /* margin-top: 0.5rem; */
+}
+.control > div {
+  width: 65%;
+  /* margin-top: 1rem; */
+}
+
+.code-block {
+  height: 400px;
+  overflow: auto;
+  background-color: aliceblue;
+}
+
+/* forms - start */
+select,
+input[type="range"],
+input[type="numer"] {
+  width: 100%;
+}
+
+select {
+  padding: 5px;
+}
