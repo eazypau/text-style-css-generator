@@ -74,7 +74,6 @@ h6 {
 
 h1 {
   font-size: 25px;
-  padding: 0.75rem;
 }
 
 section {
@@ -97,6 +96,9 @@ section .separator {
   height: 100%;
   border-radius: 3px;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
 
 .control-container {
@@ -112,32 +114,67 @@ section .separator {
 .control-panel .control {
   display: flex;
   gap: 15px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-wrap: wrap;
   align-items: center;
 }
 .control > label {
-  width: 30%;
+  width: 31%;
   /* margin-top: 0.5rem; */
 }
 .control > div {
   width: 65%;
   /* margin-top: 1rem; */
 }
+.color-panel {
+  margin-top: 0.5em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
+.code-container {
+  margin-top: 1.5em;
+  padding-top: 1em;
+  border-top: 1px solid #000000;
+}
 .code-block {
   height: 400px;
   overflow: auto;
   background-color: aliceblue;
+  padding: 0.5em;
+  font-size: 16px;
 }
 
 /* forms - start */
+input:disabled {
+  cursor: not-allowed;
+}
+
 select,
 input[type="range"],
 input[type="numer"] {
   width: 100%;
 }
 
+input.shadow-color-select {
+  width: 63%;
+}
+
+input[type="color"].color-select {
+  width: 80px;
+  height: 80px;
+}
+
 select {
   padding: 5px;
+}
+
+button {
+  background: transparent;
+  width: 80px;
+  height: 80px;
+  border: 1px solid;
+  border-radius: 7px;
+  cursor: pointer;
 }
