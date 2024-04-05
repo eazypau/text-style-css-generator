@@ -51,6 +51,17 @@
       [eventTarget.name]: eventTarget.value,
     };
 
+    // reset to one color only
+    if (
+      eventTarget.name === "textColorBehavior" &&
+      eventTarget.value === "single"
+    ) {
+      textData.value = {
+        ...textData.value,
+        textColors: [textData.value.textColors[0]],
+      };
+    }
+
     generateResult();
   };
 
@@ -110,6 +121,17 @@
     generateResult();
   };
 
+  const handleDeleteColor = (index: number) => {
+    const newColors = [...textData.value.textColors];
+    newColors.splice(index, 1);
+    textData.value = {
+      ...textData.value,
+      textColors: [...newColors],
+    };
+
+    generateResult();
+  };
+
   function generateResult() {
     //https://cssgradient.io/blog/css-gradient-text/
     const newTextColor =
@@ -133,7 +155,8 @@
         ? 0
         : textData.value.underlineOffset + "px"
     };
-    word-break: ${textData.value.wordBreak ? "break-word" : "normal"};
+    text-transform: ${textData.value.textTransform};
+    word-break: ${textData.value.wordBreak ? "break-all" : "normal"};
     color: ${newTextColor};
     text-shadow: ${textShadow};
     word-spacing: ${textData.value.wordSpacing}em;
@@ -182,12 +205,13 @@
       <div class="control-container">
         <div class="control-panel">
           <div class="control">
-            <SelectBox
+            <h2>Font Style</h2>
+            <!-- <SelectBox
               label="Font Type"
               name="fontType"
               :options="fontTypes"
               :handle-on-change="handleSelectOnChange"
-            />
+            /> -->
             <SelectBox
               label="Font Family"
               name="fontFamily"
@@ -231,7 +255,7 @@
             <RangeSelect
               label="Letter Spacing"
               name="letterSpacing"
-              :min="0.25"
+              :min="0"
               :max="3"
               :step="0.25"
               :default-value="textData.letterSpacing"
@@ -248,65 +272,16 @@
             />
             <CheckBox
               name="wordBreak"
-              label="Prevent Word Break"
+              label="Break Letters"
               :default-value="textData.wordBreak"
               :handle-on-change="handleCheckboxOnChange"
             />
             <CheckBox
               name="italic"
               label="Italic"
-              inline-style="width: 35%;"
               :default-value="textData.italic"
               :handle-on-change="handleCheckboxOnChange"
             />
-
-            <CheckBox
-              name="showTextShadow"
-              label="Show Text Shadow"
-              inline-style="width: 31%;"
-              :default-value="textData.showTextShadow"
-              :handle-on-change="handleCheckboxOnChange"
-            />
-            <input
-              type="color"
-              name="textShadowColor"
-              id="textShadowColor"
-              class="shadow-color-select"
-              :value="textData.textShadowColor"
-              :disabled="!textData.showTextShadow"
-              @change="handleShadowColorChange"
-            />
-            <RangeSelect
-              label="H-shadow"
-              name="hShadow"
-              :min="0"
-              :max="15"
-              :step="1"
-              :disabled="!textData.showTextShadow"
-              :default-value="textData.hShadow"
-              :handle-on-change="handleRangeOnChange"
-            />
-            <RangeSelect
-              label="V-shadow"
-              name="vShadow"
-              :min="0"
-              :max="15"
-              :step="1"
-              :disabled="!textData.showTextShadow"
-              :default-value="textData.vShadow"
-              :handle-on-change="handleRangeOnChange"
-            />
-            <RangeSelect
-              label="Blur-shadow"
-              name="blurShadow"
-              :min="0"
-              :max="15"
-              :step="1"
-              :disabled="!textData.showTextShadow"
-              :default-value="textData.blurShadow"
-              :handle-on-change="handleRangeOnChange"
-            />
-
             <label for="underline">
               <input
                 type="checkbox"
@@ -326,10 +301,55 @@
               :default-value="textData.underlineOffset"
               :handle-on-change="handleRangeOnChange"
             />
-            <!-- <RangeSelect label="Underline Thickness" name="underlineThickness" :min="0" :max="10" :step="1"
-                            :disabled="!textData.underline" :default-value="textData.underlineThickness"
-                            :handle-on-change="handleRangeOnChange" /> -->
 
+            <h2>Text Shadow</h2>
+            <CheckBox
+              name="showTextShadow"
+              label="Show Text Shadow"
+              :default-value="textData.showTextShadow"
+              :handle-on-change="handleCheckboxOnChange"
+            />
+            <input
+              type="color"
+              name="textShadowColor"
+              id="textShadowColor"
+              class="shadow-color-select"
+              :value="textData.textShadowColor"
+              :disabled="!textData.showTextShadow"
+              @change="handleShadowColorChange"
+            />
+            <RangeSelect
+              label="H-shadow"
+              name="hShadow"
+              :min="-15"
+              :max="15"
+              :step="1"
+              :disabled="!textData.showTextShadow"
+              :default-value="textData.hShadow"
+              :handle-on-change="handleRangeOnChange"
+            />
+            <RangeSelect
+              label="V-shadow"
+              name="vShadow"
+              :min="-15"
+              :max="15"
+              :step="1"
+              :disabled="!textData.showTextShadow"
+              :default-value="textData.vShadow"
+              :handle-on-change="handleRangeOnChange"
+            />
+            <RangeSelect
+              label="Blur-shadow"
+              name="blurShadow"
+              :min="0"
+              :max="15"
+              :step="1"
+              :disabled="!textData.showTextShadow"
+              :default-value="textData.blurShadow"
+              :handle-on-change="handleRangeOnChange"
+            />
+
+            <h2>Text Color</h2>
             <div>
               <SelectBox
                 label="Text Color"
@@ -338,19 +358,42 @@
                 :handle-on-change="handleSelectOnChange"
               />
               <div class="color-panel">
-                <input
+                <div
                   v-for="(color, index) in textData.textColors"
-                  type="color"
-                  :name="`color_${index}`"
-                  :id="`color_${index}`"
-                  class="color-select"
-                  :value="color"
-                  @change="handleColorSelect"
-                />
+                  class="color-selector-wrapper"
+                >
+                  <input
+                    type="color"
+                    :name="`color_${index}`"
+                    :id="`color_${index}`"
+                    class="color-select"
+                    :value="color"
+                    @change="handleColorSelect"
+                  />
+                  <button
+                    v-if="index !== 0"
+                    type="button"
+                    class="delete-button"
+                    @click="handleDeleteColor(index)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"
+                      />
+                    </svg>
+                  </button>
+                </div>
                 <!-- need a button to add color -->
                 <button
                   v-if="textData.textColorBehavior === 'multiple'"
                   type="button"
+                  class="button"
                   @click="handleAddColor"
                 >
                   +
@@ -360,7 +403,7 @@
           </div>
           <div class="code-container">
             <pre class="code-block">
-                {{ result }}
+              {{ result }}
             </pre>
           </div>
         </div>
