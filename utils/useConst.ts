@@ -126,9 +126,10 @@ export const useConst = () => {
     underline: false,
     underlineOffset: 0,
     // underlineThickness: 0,
-    wordBreak: true,
+    wordBreak: false,
     textColorBehavior: "single",
     textColors: ["#000000"],
+    textTransform: "none",
     showTextShadow: false,
     textShadowColor: "#ff0000",
     hShadow: 0,
@@ -147,6 +148,7 @@ export const useConst = () => {
     font-style: normal;
     text-decoration: none;
     text-underline-offset: 0;
+    text-transform: none;
     word-break: normal;
     color: #000000;
     text-shadow: none;
