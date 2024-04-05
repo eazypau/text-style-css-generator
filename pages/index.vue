@@ -3,7 +3,7 @@
   const {
     fontFamilies,
     fontSizes,
-    fontTypes,
+    // fontTypes,
     textAlignments,
     fontWeights,
     colorTypeOption,
